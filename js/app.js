@@ -1,10 +1,16 @@
+"use strict";
 const form = document.querySelector(".form");
 const taskList = document.querySelector(".list");
 const input = document.querySelector(".form__input");
 const deleteWrapper = document.querySelector(".delete");
 let toDoList = [];
 
-form.addEventListener("submit", (ev) => {
+form.addEventListener("submit", addTaskHandler);
+deleteWrapper.addEventListener("click", deleteHandler);
+taskList.addEventListener("click", crossTaskHandler);
+
+//обработчик добавление задач
+function addTaskHandler(ev) {
   ev.preventDefault();
 
   if (input.value.trim() === "") {
@@ -17,12 +23,11 @@ form.addEventListener("submit", (ev) => {
     id: toDoList.length,
   };
 
-  //добавление задач
-  const taksNode = document.createElement("li");
-  taksNode.className = "list__item";
-  taksNode.id = taskObj.id;
+  const taskNode = document.createElement("li");
+  taskNode.className = "list__item";
+  taskNode.id = taskObj.id;
 
-  taksNode.innerHTML = ` 
+  taskNode.innerHTML = ` 
 <div class="list__wrapper">
     <input class="list__checkbox" type="checkbox">
     <p class="list__text">${input.value}</p> 
@@ -30,63 +35,53 @@ form.addEventListener("submit", (ev) => {
     <button class="list__cross">❌</button>
 `;
 
-  taskList.prepend(taksNode);
+  // taskList.prepend(taskNode);
 
   input.value = "";
+  // toDoList.push(taskObj);
+  renderTask(taskNode, taskObj);
+}
+
+function renderTask(task, taskObj) {
+  taskList.prepend(task);
   toDoList.push(taskObj);
-});
+}
 
-deleteWrapper.addEventListener("click", (ev) => {
+//обработчик удаления
+function deleteHandler(ev) {
   if (ev.target.className === "delete__all btn") {
-    toDoList = [];
-    taskList.innerHTML = "";
-    input.value = "";
+    deleteAll();
   }
 
-  //удаление завершенных
   if (ev.target.className === "delete__done btn") {
-    toDoList = toDoList.filter((el) => (el.isDone = false));
-    console.log(toDoList);
+    deleteDone();
   }
-});
+}
 
-taskList.addEventListener("click", (ev) => {
-  // перечеркивание задач
-  const checkbox = document.querySelector(".list__checkbox");
+// удаление всех
+function deleteAll() {
+  toDoList = [];
+  taskList.innerHTML = "";
+  input.value = "";
+}
 
-  if (checkbox.checked) {
-    ev.target.nextElementSibling.classList.add("crossed");
+//удаление завершенных
+function deleteDone() {
+  toDoList = toDoList.filter((task) => task.isDone == false);
+}
+
+//обработчик завершение задач
+function crossTaskHandler(ev) {
+  if (ev.target.matches(`input[type="checkbox"]`)) {
     const taskNode = ev.target.closest(".list__item");
+    const taskNodeText = taskNode.querySelector(".list__text");
 
-    toDoList = toDoList.map((el) => {
-      if (taskNode.id == el.id) {
-        return {
-          ...el,
-          isDone: true,
-        };
-      }
-      return el;
-    });
-  } else {
-    ev.target.nextElementSibling.classList.remove("crossed");
+    taskNodeText.classList.toggle("crossed");
 
-    const taskNode = ev.target.closest(".list__item");
-
-    toDoList = toDoList.map((el) => {
-      if (taskNode.id == el.id) {
-        return {
-          ...el,
-          isDone: false,
-        };
-      }
-      return el;
-    });
+    toDoList = toDoList.map((task) =>
+      taskNode.id == task.id ? { ...task, isDone: !task.isDone } : task
+    );
   }
-
-  // if (ev.target.className === "list__checkbox") {
-  //   ev.target.nextElementSibling.classList.toggle("crossed");
-  //   const taskNode = ev.target.closest(".list__item");
-  // }
 
   // удаление конкретной задачи
   if (ev.target.className === "list__cross") {
@@ -94,8 +89,9 @@ taskList.addEventListener("click", (ev) => {
     toDoList = toDoList.filter((task) => task.id != id);
     ev.target.parentNode.remove();
   }
-});
+}
 
-// setInterval(() => {
-//   console.log(toDoList);
-// }, 4000);
+function saveToLocalStorage() {
+  localStorage.setItem("toDoList", toDoList);
+}
+
