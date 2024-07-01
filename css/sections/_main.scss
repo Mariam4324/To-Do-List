@@ -1,0 +1,129 @@
+.main {
+  padding: 80px 0 0 0;
+
+  &__title {
+    text-align: center;
+    color: #fff;
+    font-size: 58px;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  &__wrapper {
+    padding: 24px 24px 18px;
+    max-width: 594px;
+    margin-top: 33px;
+    border-radius: 16px 16px 0 0;
+    border-bottom: none;
+    background: #fff;
+    box-shadow: 0px 8px 35px 0px rgba(0, 0, 0, 0.16);
+  }
+}
+
+.form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__input {
+    padding: 9px 10px 8px 13px;
+    width: 100%;
+    max-width: 356px;
+    height: 38px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    background: #fff;
+  }
+
+  &__btn {
+    min-width: 166px;
+    background: #272829;
+  }
+
+  &__btn:hover {
+    background: #4c514a;
+  }
+
+  &__line {
+    margin-top: 24px;
+    height: 1px;
+    background: #dee2e6;
+    width: 100%;
+    max-width: 594px;
+  }
+
+  &__list {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+  }
+}
+
+.delete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0px 0px 16px 16px;
+  background: #f5f5f5;
+  padding: 18px 24px;
+
+  &__done {
+    background: #6c757d;
+  }
+
+  &__done:hover {
+    background: #4c514a;
+  }
+
+  &__all {
+    background: #dc3545;
+  }
+
+  &__all:hover {
+    background: #4c514a;
+  }
+}
+
+.list {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  gap: 24px;
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__text {
+    color: #54595e;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21px;
+  }
+
+  &__cross {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21px;
+    background: transparent;
+  }
+
+  &__wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+}
+
+.crossed {
+  // color: #54595e;
+  // font-size: 16px;
+  // font-weight: 400;
+  // line-height: 21px;
+  text-decoration-line: line-through;
+}
