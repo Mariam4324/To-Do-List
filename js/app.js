@@ -94,4 +94,3 @@ function crossTaskHandler(ev) {
 function saveToLocalStorage() {
   localStorage.setItem("toDoList", toDoList);
 }
-
