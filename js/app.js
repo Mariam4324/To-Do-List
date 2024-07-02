@@ -9,7 +9,7 @@ form.addEventListener("submit", addTaskHandler);
 deleteWrapper.addEventListener("click", deleteHandler);
 taskList.addEventListener("click", crossTaskHandler);
 
-//обработчик добавление задач
+//добавление
 function addTaskHandler(ev) {
   ev.preventDefault();
 
@@ -20,31 +20,31 @@ function addTaskHandler(ev) {
   const taskObj = {
     text: input.value,
     isDone: false,
-    id: toDoList.length,
+    id: new Date().getMilliseconds(),
   };
 
+  renderTask(taskObj);
+  console.log(toDoList);
+}
+
+// отрисовка
+function renderTask(taskObj) {
   const taskNode = document.createElement("li");
   taskNode.className = "list__item";
   taskNode.id = taskObj.id;
 
-  taskNode.innerHTML = ` 
-<div class="list__wrapper">
-    <input class="list__checkbox" type="checkbox">
-    <p class="list__text">${input.value}</p> 
-</div>
-    <button class="list__cross">❌</button>
-`;
+  taskNode.innerHTML = `
+  <div class="list__wrapper">
+      <input class="list__checkbox" type="checkbox">
+      <p class="list__text">${taskObj.text}</p>
+  </div>
+      <button class="list__cross">❌</button>
+  `;
 
-  // taskList.prepend(taskNode);
-
+  taskList.prepend(taskNode);
   input.value = "";
-  // toDoList.push(taskObj);
-  renderTask(taskNode, taskObj);
-}
-
-function renderTask(task, taskObj) {
-  taskList.prepend(task);
   toDoList.push(taskObj);
+  saveToLocalStorage();
 }
 
 //обработчик удаления
@@ -63,11 +63,15 @@ function deleteAll() {
   toDoList = [];
   taskList.innerHTML = "";
   input.value = "";
+  saveToLocalStorage();
 }
 
 //удаление завершенных
 function deleteDone() {
-  toDoList = toDoList.filter((task) => task.isDone == false);
+  toDoList = toDoList.filter((task) => !task.isDone);
+  taskList.innerHTML = "";
+  toDoList.forEach((task) => renderTask(task));
+  saveToLocalStorage();
 }
 
 //обработчик завершение задач
@@ -81,6 +85,7 @@ function crossTaskHandler(ev) {
     toDoList = toDoList.map((task) =>
       taskNode.id == task.id ? { ...task, isDone: !task.isDone } : task
     );
+    saveToLocalStorage();
   }
 
   // удаление конкретной задачи
@@ -88,9 +93,20 @@ function crossTaskHandler(ev) {
     const id = ev.target.parentNode.id;
     toDoList = toDoList.filter((task) => task.id != id);
     ev.target.parentNode.remove();
+    saveToLocalStorage();
   }
 }
 
+// сохранение в локальное хранилище
 function saveToLocalStorage() {
-  localStorage.setItem("toDoList", toDoList);
+  localStorage.setItem("toDoList", JSON.stringify(toDoList));
 }
+
+function getFromLocalStorage() {
+  const tasks = JSON.parse(localStorage.getItem("toDoList") || []);
+
+  tasks.forEach((obj) => {
+    renderTask(obj);
+  });
+}
+getFromLocalStorage();
