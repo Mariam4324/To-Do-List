@@ -1,22 +1,27 @@
 .main {
   padding: 80px 0 0 0;
 
+  &__holder {
+    box-shadow: 0px 8px 35px 0px rgba(0, 0, 0, 0.16);
+    border-radius: 16px;
+  }
+
   &__title {
     text-align: center;
-    color: #fff;
+    color: #000;
     font-size: 58px;
     font-weight: 700;
     line-height: normal;
   }
 
   &__wrapper {
+    position: relative;
     padding: 24px 24px 18px;
     max-width: 594px;
     margin-top: 33px;
-    border-radius: 16px 16px 0 0;
+    border-radius: 16px;
     border-bottom: none;
     background: #fff;
-    box-shadow: 0px 8px 35px 0px rgba(0, 0, 0, 0.16);
   }
 }
 
@@ -24,11 +29,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
 
   &__input {
     padding: 9px 10px 8px 13px;
     width: 100%;
-    max-width: 356px;
     height: 38px;
     border-radius: 4px;
     border: 1px solid #ced4da;
@@ -39,9 +44,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 166px;
     background: #272829;
     padding: 10px 33px;
+    cursor: pointer;
   }
 
   &__btn:hover {
@@ -49,11 +54,13 @@
   }
 
   &__line {
-    margin-top: 24px;
+    position: absolute;
+    top: 86px;
     height: 1px;
+    right: 0;
+    left: 0;
     background: #dee2e6;
-    width: 100%;
-    max-width: 594px;
+    display: none;
   }
 
   &__list {
@@ -71,6 +78,7 @@
   border-radius: 0px 0px 16px 16px;
   background: #f5f5f5;
   padding: 18px 24px;
+  display: none;
 
   &__done {
     background: #6c757d;
@@ -90,11 +98,12 @@
 }
 
 .list {
-  margin-top: 32px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-content: center;
   gap: 24px;
+  display: none;
 
   &__item {
     display: flex;
@@ -122,10 +131,26 @@
     gap: 10px;
     align-items: center;
   }
+
+  &__checkbox {
+    width: 16px;
+    height: 16px;
+    opacity: 0.5;
+  }
+
+  &__checkbox:checked {
+    content: url("./../../icons/checkbox.svg");
+    opacity: 1;
+  }
 }
 
 .crossed {
   text-decoration-line: line-through;
+  opacity: 0.5;
+}
+
+.active-wrapper {
+  border-radius: 16px 16px 0 0;
 }
 
 @media (max-width: 700px) {
@@ -134,17 +159,40 @@
       font-size: 54px;
     }
   }
-
-  .form {
-    &__input {
-      margin-right: 20px;
-    }
-  }
 }
 
 @media (max-width: 450px) {
   .delete {
     flex-direction: column;
     gap: 20px;
+  }
+
+  .form {
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+
+    &__btn {
+      width: 100%;
+    }
+
+    &__input {
+      margin-right: 0;
+    }
+  }
+
+  .delete {
+    &__all,
+    &__done {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .form {
+    &__line {
+      top: 140px;
+    }
   }
 }

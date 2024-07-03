@@ -1,8 +1,11 @@
 "use strict";
-const form = document.querySelector(".form");
-const taskList = document.querySelector(".list");
-const input = document.querySelector(".form__input");
-const deleteWrapper = document.querySelector(".delete");
+const form = document.querySelector(".form"),
+  taskList = document.querySelector(".list"),
+  input = document.querySelector(".form__input"),
+  deleteWrapper = document.querySelector(".delete"),
+  formLine = document.querySelector(".form__line"),
+  mainWrapper = document.querySelector(".main__wrapper");
+
 let toDoList = [];
 
 form.addEventListener("submit", addTaskHandler);
@@ -14,6 +17,11 @@ function addTaskHandler(ev) {
   ev.preventDefault();
 
   if (input.value.trim() === "") return;
+
+  mainWrapper.classList.add("active-wrapper");
+  formLine.style.display = "block";
+  deleteWrapper.style.display = "flex";
+  taskList.style.display = "flex";
 
   const taskObj = {
     text: input.value,
@@ -32,8 +40,8 @@ function renderTask(taskObj) {
 
   taskNode.innerHTML = `
   <div class="list__wrapper">
-      <input class="list__checkbox" type="checkbox">
-      <p class="list__text">${taskObj.text}</p>
+    <input class="list__checkbox" id="checkbox" type="checkbox">
+    <p class="list__text">${taskObj.text}</p>
   </div>
       <button class="list__cross">❌</button>
   `;
@@ -56,6 +64,10 @@ function deleteAll() {
   toDoList = [];
   taskList.innerHTML = "";
   input.value = "";
+  mainWrapper.classList.remove("active-wrapper");
+  formLine.style.display = "none";
+  deleteWrapper.style.display = "none";
+  taskList.style.display = "none";
   saveToLocalStorage();
 }
 
@@ -71,6 +83,16 @@ function deleteDone() {
   });
 
   toDoList = toDoList.filter((task) => !task.isDone);
+
+  console.log(taskList);
+
+  if (taskList.innerHTML === "") {
+    mainWrapper.classList.remove("active-wrapper");
+    formLine.style.display = "none";
+    deleteWrapper.style.display = "none";
+    taskList.style.display = "none";
+  }
+
   saveToLocalStorage();
 }
 
@@ -85,6 +107,7 @@ function crossTaskHandler(ev) {
     toDoList = toDoList.map((task) =>
       taskNode.id == task.id ? { ...task, isDone: !task.isDone } : task
     );
+
     saveToLocalStorage();
   }
 
@@ -108,3 +131,10 @@ function getFromLocalStorage() {
   tasks.forEach((obj) => renderTask(obj));
 }
 getFromLocalStorage();
+
+if (toDoList.length) {
+  mainWrapper.classList.add("active-wrapper");
+  formLine.style.display = "block";
+  deleteWrapper.style.display = "flex";
+  taskList.style.display = "flex";
+}

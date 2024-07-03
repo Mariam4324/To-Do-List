@@ -1,14 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To Do list</title>
-    <link
-      rel="shortcut icon"
-      href="./icons/favicon_done.webp"
-      type="image/x-icon"
-    />
+    <link rel="icon" type="image/x-icon" href="./icons/favicon.webp" />
     <link rel="stylesheet" href="./css/style.min.css" />
   </head>
 
@@ -18,25 +14,25 @@
         <div class="container">
           <h1 class="main__title">ToDo List</h1>
 
-          <div class="main__wrapper">
-            <form class="form">
-              <input
-                class="form__input"
-                type="text"
-                placeholder="введите задачу"
-              />
-
-              <input class="form__btn btn" value="Добавить" type="submit" />
-            </form>
-
-            <div class="form__line"></div>
-
-            <ul class="list"></ul>
-          </div>
-          
-          <div class="delete">
-            <button id="deleteDone" class="delete__done btn">Удалить завершенные</button>
-            <button class="delete__all btn">Удалить все</button>
+          <div class="main__holder">
+            <div class="main__wrapper">
+              <form class="form">
+                <input
+                  class="form__input"
+                  type="text"
+                  placeholder="какие делишки"
+                />
+                <input class="form__btn btn" value="Добавить" type="submit" />
+              </form>
+              <div class="form__line"></div>
+              <ul class="list"></ul>
+            </div>
+            <div class="delete">
+              <button id="deleteDone" class="delete__done btn">
+                Удалить завершенные
+              </button>
+              <button class="delete__all btn">Удалить все</button>
+            </div>
           </div>
         </div>
       </section>
