@@ -20,11 +20,10 @@ function addTaskHandler(ev) {
   const taskObj = {
     text: input.value,
     isDone: false,
-    id: new Date().getMilliseconds(),
+    id: new Date().getTime(),
   };
 
   renderTask(taskObj);
-  console.log(toDoList);
 }
 
 // отрисовка
@@ -68,9 +67,18 @@ function deleteAll() {
 
 //удаление завершенных
 function deleteDone() {
+  const tasksToDelete = [...document.querySelectorAll(".list__item")];
+
+  tasksToDelete.forEach((taskNode) => {
+    const taskNodeId = parseInt(taskNode.id);
+    const task = toDoList.find((task) => task.id === taskNodeId);
+
+    if (task && task.isDone) {
+      taskNode.remove();
+    }
+  });
+
   toDoList = toDoList.filter((task) => !task.isDone);
-  taskList.innerHTML = "";
-  toDoList.forEach((task) => renderTask(task));
   saveToLocalStorage();
 }
 
