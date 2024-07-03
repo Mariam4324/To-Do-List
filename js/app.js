@@ -13,9 +13,7 @@ taskList.addEventListener("click", crossTaskHandler);
 function addTaskHandler(ev) {
   ev.preventDefault();
 
-  if (input.value.trim() === "") {
-    return;
-  }
+  if (input.value.trim() === "") return;
 
   const taskObj = {
     text: input.value,
@@ -48,13 +46,9 @@ function renderTask(taskObj) {
 
 //обработчик удаления
 function deleteHandler(ev) {
-  if (ev.target.className === "delete__all btn") {
-    deleteAll();
-  }
+  if (ev.target.className === "delete__all btn") deleteAll();
 
-  if (ev.target.className === "delete__done btn") {
-    deleteDone();
-  }
+  if (ev.target.className === "delete__done btn") deleteDone();
 }
 
 // удаление всех
@@ -73,9 +67,7 @@ function deleteDone() {
     const taskNodeId = parseInt(taskNode.id);
     const task = toDoList.find((task) => task.id === taskNodeId);
 
-    if (task && task.isDone) {
-      taskNode.remove();
-    }
+    if (task && task.isDone) taskNode.remove();
   });
 
   toDoList = toDoList.filter((task) => !task.isDone);
@@ -97,7 +89,7 @@ function crossTaskHandler(ev) {
   }
 
   // удаление конкретной задачи
-  if (ev.target.className === "list__cross") {
+  if (event.target.classList.contains("list__cross")) {
     const id = ev.target.parentNode.id;
     toDoList = toDoList.filter((task) => task.id != id);
     ev.target.parentNode.remove();
@@ -113,8 +105,6 @@ function saveToLocalStorage() {
 function getFromLocalStorage() {
   const tasks = JSON.parse(localStorage.getItem("toDoList") || []);
 
-  tasks.forEach((obj) => {
-    renderTask(obj);
-  });
+  tasks.forEach((obj) => renderTask(obj));
 }
 getFromLocalStorage();
